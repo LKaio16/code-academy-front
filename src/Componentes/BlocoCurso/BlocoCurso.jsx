@@ -4,12 +4,13 @@ import "../BlocoCurso/BlocoCurso.css";
 import HeaderPesquisa from "../HeaderPesquisa/HeaderPesquisa";
 import { useNavigate } from "react-router-dom";
 import useAppCookies from "../../Hooks/useAppCookies";
+import Loading from "../loading/loading";
 
 function CursoBox({ curso, alunoId }) {
   const {
     linkImg,
     nome,
-    professorId,
+    professor,
     id,
     descricao,
     inscrito: initiallyInscribed,
@@ -17,6 +18,8 @@ function CursoBox({ curso, alunoId }) {
   const navigate = useNavigate();
   const [inscrito, setInscrito] = useState(initiallyInscribed);
   const { cookies } = useAppCookies();
+  const [loading, setLoading] = useState(false);
+
 
   const handleInscricao = () => {
     if (!inscrito) {
@@ -25,7 +28,6 @@ function CursoBox({ curso, alunoId }) {
         .then((response) => {
           if (response.status === 200) {
             setInscrito(true);
-            navigate(`/cursos/${id}`);
           } else {
             alert("Não foi possível inscrever-se no curso.");
           }
@@ -34,6 +36,8 @@ function CursoBox({ curso, alunoId }) {
           console.error("Erro ao inscrever no curso:", error);
           alert("Erro ao tentar inscrever no curso.");
         });
+    } else {
+      navigate(`/cursos?cursoId=${id}`);
     }
   };
 
@@ -42,19 +46,18 @@ function CursoBox({ curso, alunoId }) {
       <img src={linkImg} alt={nome} />
       <div className="info_curso">
         <h2>{nome}</h2>
-        <p>Professor: {professorId}</p>
+        <p>Professor: {professor.nome}</p>
         <p>Descrição: {descricao}</p>
       </div>
       <button
         onClick={handleInscricao}
-        disabled={inscrito}
         aria-label={
           inscrito
             ? `Inscrito no curso ${nome}`
             : `Inscrever-se no curso ${nome}`
         }
       >
-        {inscrito ? "Inscrito" : "Inscreva-se"}
+        {inscrito ? "Acessar" : "Inscreva-se"}
       </button>
     </div>
   );
@@ -66,7 +69,7 @@ function CatalogoCursos() {
   const [termoPesquisa, setTermoPesquisa] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const alunoId = cookies["user-info"]?.id; // Este deveria ser o ID real do aluno, obtido de algum estado global ou serviço de autenticação
+  const alunoId = cookies["user-info"]?.id;
 
   useEffect(() => {
     setLoading(true);
@@ -79,6 +82,7 @@ function CatalogoCursos() {
           inscrito:
             Array.isArray(curso.alunos) && curso.alunos.includes(alunoId),
         }));
+        console.log(response)
 
         setCursos(data);
         setLoading(false);
@@ -105,6 +109,8 @@ function CatalogoCursos() {
 
   return (
     <div>
+      {loading && <Loading />}
+
       <HeaderPesquisa onSearch={handleSearch} />
       <div className="Container_h1">
         <h1>Catálogo de Cursos</h1>

@@ -9,7 +9,6 @@ export default function CatalogodeCursos() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        //trava de "segurança" para login
         if (cookies["user-info"]) {
             const userTag = cookies["user-info"]?.tag;
 

@@ -1,38 +1,40 @@
-import "./VideoCatalogo.css";
+import React, { useState, useCallback } from "react";
 import YouTube from "react-youtube";
-import React from "react";
+import axios from "axios";
+import "./VideoCatalogo.css";
 
-const VideoCatalogo = ({ selectedAula, cookies, setCookie }) => {
-    // Este componentes está recebendo como propriedade o selectedAula de cursos, este recebe as atts de sidebar, e o videoCatalogo renderiza tudo.
 
-    // aulasCookie recebe toda a informação do cookie "aulas-finalizadas".
-    // O useMemo otimiza a performance evitando que essa busca seja realizada a todo momento que o
-    // componente sofre algum re-render. Ele atualiza o valor de aulasCookie se o cookie for modificado
-    const aulasCookie = React.useMemo(
-        () => cookies["aulas-finalizadas"] || [],
-        [cookies]
-    );
+const VideoCatalogo = ({ selectedAula, alunoId, aulasFinalizadas, setAulasFinalizadas }) => {
 
-    const handleVideoEnding = React.useCallback(() => {
-        const aulaFinalizada = [...aulasCookie, selectedAula.id];
-        setCookie("aulas-finalizadas", aulaFinalizada);
-    }, [setCookie, aulasCookie, selectedAula.id]);
+  const getYouTubeVideoID = (url) => {
+    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const matches = url.match(regex);
+    return matches ? matches[1] : null;
+  };
 
-    if (!Object.keys(selectedAula).length) return <h2>Carregando vídeo...</h2>;
+  const handleVideoEnding = useCallback(async () => {
+    try {
+      await axios.post(`http://localhost:8080/aula/vista/${alunoId}/${selectedAula.id}`);
+      setAulasFinalizadas((prev) => [...prev, selectedAula.id]);
+    } catch (error) {
+      console.error("Erro ao marcar aula como vista:", error);
+    }
+  }, [alunoId, selectedAula.id, setAulasFinalizadas]);
 
-    return (
-        <div className="ContainerVideo">
-            <div className="Video">
-                {/* se não houver curso o componente renderiza um modelo vazio */}
-                <h1>{selectedAula?.title}</h1>
-                <YouTube
-                    videoId={selectedAula?.video}
-                    onEnd={handleVideoEnding}
-                />
-                <h3>{selectedAula?.descricao}</h3>
-            </div>
-        </div>
-    );
+  if (!Object.keys(selectedAula).length) return <h2>Carregando vídeo...</h2>;
+
+  return (
+    <div className="ContainerVideo">
+      <div className="Video">
+        <h1>{selectedAula?.titulo}</h1>
+        <YouTube
+          videoId={getYouTubeVideoID(selectedAula?.url)}
+          onEnd={handleVideoEnding}
+        />
+        <h3>{selectedAula?.descricao}</h3>
+      </div>
+    </div>
+  );
 };
 
 export default VideoCatalogo;
