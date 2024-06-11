@@ -12,8 +12,7 @@ footer {
   justify-content: center;
   align-items: center;
   gap: 20px;
-  position: fixed;
-  width: 100%;
+
 }
 
 footer img {
