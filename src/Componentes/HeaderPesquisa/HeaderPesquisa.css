@@ -1,0 +1,50 @@
+.CabecalhoP {
+    background-color: #03d163;
+    padding: 15px 0;
+    color: #ffffff;
+    display: flex;
+    height: 53px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.CabecalhoP__logo {
+  width: 350px;
+  height: 50px;
+  margin-left: 10px;
+}
+
+.Barra-Pesquisa {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    margin-right: 10px;
+  }
+
+  .input_pesquisa{
+    width: 250px;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+  }
+  
+  .user-info .user-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .button_catalogo{
+    margin: 0;
+    margin-left: 15px;
+  }
+
+  .UserName {
+    margin-right: 15px;
+    color: black;
+    font-weight: bold;
+  }

@@ -1,0 +1,57 @@
+.ContainerApresentacao {
+  background-color: #9df3c4;
+  height: 80vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.ContainerBoasVindas {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40vw;
+  padding-left: 120px;
+}
+
+.Texts_BoasVindas .subtitle {
+  color: #1fab89;
+  font-size: 15px;
+  font-family: Inter ", sans-serif; ";
+  font-weight: 700;
+  font-style: normal;
+}
+
+.Texts_BoasVindas .title {
+  color: #0b7077;
+  font-size: 30px;
+  font-family: "Anonymous Pro", monospace;
+  font-weight: 700;
+  font-style: normal;
+  padding-bottom: 30px;
+  margin-top: -6px;
+}
+
+.ContainerImg {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.Apresentacao_Img {
+  height: auto;
+  max-height: 80%;
+  width: auto;
+  object-fit: contain;
+}
+
+.button {
+  background-color: #1fab89;
+  font-family: "Inter", sans-serif;
+  border: none;
+  padding: 15px 7vw;
+  margin: 0 10px;
+  border-radius: 15px;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  align-self: center;
+  font-size: 20px;
+}

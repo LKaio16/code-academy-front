@@ -1,0 +1,101 @@
+/* Base Layout */
+.ContainerLoginPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Login Container Styles */
+.ContainerLogin {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.ContainerLogin img {
+  width: 140px;
+  margin: 0 auto;
+  display: block;
+}
+
+.ContainerLogin h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #146439;
+}
+
+/* Form Styles */
+.ContainerLoginPage form {
+  display: flex;
+  flex-direction: column;
+}
+
+.ContainerLoginPage label {
+  margin-bottom: 5px;
+}
+
+.ContainerLoginPage input[type="text"],
+.ContainerLoginPage input[type="password"],
+.ContainerLoginPage input[type="button"] {
+  background-color: #d4d4d4;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 15px;
+  color: #333;
+}
+
+.ContainerLoginPage input[type="password"] {
+  width: 80%;
+  letter-spacing: 3px;
+}
+
+/* Button Styles */
+.button_login,
+.button_registrar_login {
+  font-family: "Inter", sans-serif;
+  border: none;
+  padding: 15px 40px;
+  margin: 0 10px;
+  border-radius: 15px;
+  transition: background-color 0.3s, transform 0.2s;
+  font-weight: bold;
+}
+
+.button_login {
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.button_login:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  color: white;
+}
+
+/* Input Containers */
+.ContainerInputEmail,
+.ContainerInputSenha {
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 20px;
+  padding: 10px 20px;
+}
+
+/* Icon Interactions */
+.fa-eye,
+.fa-eye-slash,
+.Sign_modes img {
+  cursor: pointer;
+}
+
+.fa-eye,
+.fa-eye-slash {
+  margin-left: 10px;
+}
