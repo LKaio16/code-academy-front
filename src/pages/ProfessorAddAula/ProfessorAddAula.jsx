@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import useFormulary from "../../Hooks/useFormulary";
 import Input from "../../Componentes/Input/Input";
-import useQuery from "../../Hooks/useQuery";
+import useQuery from "../../Hooks/useQuery"; 
 import "../ProfessorAddAula/professorAddAula.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfessorAddAula() {
   const query = useQuery();
@@ -11,6 +12,7 @@ export default function ProfessorAddAula() {
   const [aulas, setAulas] = useState([]);
   const [addedAula, setAddedAula] = useState(null);
   const [failedToAdd, setFailedToAdd] = useState(null);
+  const navigate = useNavigate();
 
   const initialFormData = {
     titulo: "",
@@ -29,18 +31,23 @@ export default function ProfessorAddAula() {
       const response = await axios.get(
         `http://localhost:8080/aula/curso/${cursoId}`
       );
-      console.log(response.data); // Adicione isso para verificar os dados retornados
-      // Certifique-se de que response.data é um array antes de chamar setAulas
+      console.log(response.data);
       if (Array.isArray(response.data)) {
         setAulas(response.data);
       } else {
-        setAulas([]); // Se não for um array, defina como um array vazio para evitar erros
+        setAulas([]);
         console.error("Dados recebidos não são um array:", response.data);
       }
     } catch (error) {
       console.error("Erro ao buscar aulas:", error);
-      setAulas([]); // Defina como um array vazio em caso de erro na API
+      setAulas([]); 
     }
+  };
+
+  
+  const handleVoltar = async () => {
+    navigate(`/professors`);
+
   };
 
   const handleSubmit = async (event) => {
@@ -56,7 +63,7 @@ export default function ProfessorAddAula() {
       setAddedAula(response.data);
       resetForm();
       setFailedToAdd(false);
-      fetchAulas(); // Atualizar a lista de aulas após adicionar uma nova
+      fetchAulas();
     } catch (error) {
       console.error("Erro ao enviar solicitação POST:", error);
       setFailedToAdd(true);
@@ -69,7 +76,7 @@ export default function ProfessorAddAula() {
         `http://localhost:8080/aula/${aulaId}`
       );
       if (response.status === 204) {
-        fetchAulas(); // Atualizar a lista após remover
+        fetchAulas();
       }
     } catch (error) {
       console.error("Erro ao enviar solicitação DELETE:", error);
@@ -104,6 +111,9 @@ export default function ProfessorAddAula() {
             <button type="submit" className="addCurso-btn">
               Adicionar
             </button>
+        
+            <button className="addCurso-btn" onClick={handleVoltar}>Cancelar</button>
+          
           </form>
           {failedToAdd !== null && (
             <p>

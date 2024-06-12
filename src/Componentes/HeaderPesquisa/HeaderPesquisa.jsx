@@ -7,7 +7,7 @@ import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import useAppCookies from "../../Hooks/useAppCookies";
 
-function HeaderPesquisa({ onSearch }) {
+function HeaderPesquisa({ onSearch, onFilterToggle }) {
     const [user, setUser] = useState(null);
 
     const navigate = useNavigate();
@@ -16,7 +16,6 @@ function HeaderPesquisa({ onSearch }) {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                // deixar isso dinamico
                 const response = await axios.get(
                     `http://localhost:3001/usuarios/${cookies["user-info"]?.id}`
                 );
@@ -31,7 +30,6 @@ function HeaderPesquisa({ onSearch }) {
 
     const identificadorPesquisa = (event) => {
         const searchTerm = event.target.value;
-
         onSearch(searchTerm);
     };
 
@@ -65,6 +63,16 @@ function HeaderPesquisa({ onSearch }) {
                     alt={user?.nome}
                     className="user-image"
                 />
+                {onFilterToggle && (
+                    <button
+                        type="button"
+                        className="button_catalogo"
+                        style={{ backgroundColor: "#146439ef" }}
+                        onClick={onFilterToggle} // Chama a função fornecida pela propriedade ao clicar no botão de filtro
+                    >
+                        <FontAwesomeIcon icon={faRightFromBracket} />
+                    </button>
+                )}
                 <button
                     type="button"
                     className="button_catalogo"

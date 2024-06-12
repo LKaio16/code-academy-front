@@ -22,7 +22,10 @@
   }
 
   .input_pesquisa{
-    width: 250px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 4px;
   }
   
   .user-info {

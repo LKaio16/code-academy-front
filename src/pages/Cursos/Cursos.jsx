@@ -10,29 +10,28 @@ export default function Cursos() {
   const [curso, setCurso] = useState({});
   const [aulas, setAulas] = useState([]);
   const [selectedAula, setSelectedAula] = useState({});
+  const [aulasFinalizadas, setAulasFinalizadas] = useState([]);
 
   const query = useQuery();
   const { cookies, setCookie } = useAppCookies(["aulas-finalizadas"]);
+  const cursoId = query.get("cursoId");
 
   useEffect(() => {
     const fetchCursoEAulas = async () => {
-      const cursoId = query.get("cursoId");
       try {
-        // Requisição para buscar os detalhes do curso
         const responseCurso = await axios.get(
           `http://localhost:8080/curso/${cursoId}`
         );
         if (responseCurso.status === 200) {
           setCurso(responseCurso.data);
 
-          // Requisição para buscar as aulas associadas ao curso
           const responseAulas = await axios.get(
             `http://localhost:8080/aula/curso/${cursoId}`
           );
           if (responseAulas.status === 200) {
             setAulas(responseAulas.data);
             if (responseAulas.data.length > 0) {
-              setSelectedAula(responseAulas.data[0]); // Seleciona a primeira aula por padrão
+              setSelectedAula(responseAulas.data[0]);
             }
           }
         }
@@ -45,29 +44,29 @@ export default function Cursos() {
   }, [query]);
 
   return (
-    <>
-      <div className="containerPageCursos">
-        <div className="pageCursos">
+    <div className="containerPageCursos">
+      <div className="pageCursos">
+        {aulas.length > 0 && (
           <Sidebar
-            curso={curso}
+            cursoId={cursoId}
             aulas={aulas}
-            cookies={cookies}
+            selectedAula={selectedAula}
+            aulasFinalizadas={aulasFinalizadas}
+            setAulasFinalizadas={setAulasFinalizadas} // Certifique-se de passar essa prop
             onChangeAula={setSelectedAula}
+            alunoId={cookies["user-info"]?.id}
           />
-          <div className="contentRelated">
-            <VideoCatalogo
-              selectedAula={selectedAula}
-              cookies={cookies}
-              setCookie={setCookie}
-            />
-            {/* Comentários de vídeo e outras interações poderiam ser implementados aqui */}
-          </div>
+        )}
+
+        <div className="contentRelated">
+          <VideoCatalogo
+            alunoId={cookies["user-info"]?.id}
+            selectedAula={selectedAula}
+            aulasFinalizadas={aulasFinalizadas}
+            setAulasFinalizadas={setAulasFinalizadas}
+          />
         </div>
-        {/* Rodapé opcional */}
-        {/* <div className='pageFooter'>
-                    <Footer />
-                </div> */}
       </div>
-    </>
+    </div>
   );
 }
